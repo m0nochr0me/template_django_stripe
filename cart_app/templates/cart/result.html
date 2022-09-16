@@ -1,0 +1,14 @@
+{% extends 'cart/base.html' %}
+
+{% block title %}Payment Result{% endblock title %}
+
+{% block content %}
+{{ block.super }}
+
+{% if result %}
+
+<h3>Payment {{ result }}</h3>
+
+{% endif %}
+
+{% endblock content %}

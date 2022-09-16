@@ -1,0 +1,23 @@
+{% extends 'cart/base.html' %}
+
+{% block title %}Cart Index{% endblock title %}
+
+{% block content %}
+{{ block.super }}
+<!-- . -->
+<h4>Cart Index</h4>
+{% if items %}
+<p>
+  Catalogue:
+</p>
+
+<ul>
+{% for item in items %}
+  <li>
+    <a href="{% url 'cart_app:item_detail' item.id %}">{{ item.title }} - {{ item.price }}</a>
+  </li>
+{% endfor %}
+</ul>
+{% endif %}
+<!-- . -->
+{% endblock content %}

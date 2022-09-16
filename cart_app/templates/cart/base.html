@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block headscripts %}
+{{ block.super }}
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock headscripts %}
+
+{% block content %}
+{{ block.super }}
+<!-- . -->
+<a href="/"><h3>Home</h3></a>
+
+{% if request.order.id %}
+<p><a href="{% url 'cart_app:order_detail' request.order.id %}">Order #{{request.order.id}} - {{request.order.get_total}}</a></p>
+<hr>
+{% endif %}
+<!-- . -->
+{% endblock content %}
+
+
+{% block footerscripts %}
+{{ block.super }}
+
+{% endblock footerscripts %}

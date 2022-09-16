@@ -1,0 +1,77 @@
+{% extends 'cart/base.html' %}
+
+{% block title %}Order{% endblock title %}
+
+{% block content %}
+{{ block.super }}
+<!-- .. -->
+{% if order %}
+<h5>Order details:</h5>
+<p>Status: {{ order.payment_status }}</p>
+<ul>
+{% for element in order %}
+  <li>
+    {{ element.item.title }} -- Qty.: {{ element.qty }} -- {{ element.get_subtotal }}
+  </li>
+{% endfor %}
+</ul>
+<b>TOTAL: {{ order.get_total }}</b>
+<hr>
+
+<form id="payment-form" data-secret="{{ client_secret }}">
+  <div id="payment-element">
+    <!-- ... -->
+  </div>
+
+  <button id="submit">Submit</button>
+</form>
+
+
+{% endif %}
+<!-- .. -->
+{% endblock content %}
+
+
+{% block footerscripts %}
+{{ block.super }}
+<script language="JavaScript">
+fetch("/config/")
+  .then((result) => { return result.json(); })
+  .then((data) => {
+  const stripe = Stripe(data.publicKey);
+
+  const options = {
+    clientSecret: '{{ client_secret }}'
+  };
+
+  const elements = stripe.elements(options);
+
+  const paymentElement = elements.create('payment');
+  paymentElement.mount('#payment-element');
+
+  const form = document.getElementById('payment-form');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const {error} = await stripe.confirmPayment({
+    //`Elements` instance that was used to create the Payment Element
+    elements,
+    confirmParams: {
+      return_url: 'http://localhost:8000/result',
+    },
+  });
+
+  if (error) {
+    const messageContainer = document.querySelector('#error-message');
+    messageContainer.textContent = error.message;
+  } else {
+    console.log('yay!')
+  }
+});
+
+});
+</script>
+
+
+{% endblock footerscripts %}

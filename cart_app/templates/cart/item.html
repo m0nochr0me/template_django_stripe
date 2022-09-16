@@ -1,0 +1,27 @@
+{% extends 'cart/base.html' %}
+
+{% block title %}Item #{{item.id}}{% endblock title %}
+
+{% block content %}
+{{ block.super }}
+<!-- . -->
+<h2>
+  {{ item.title }}
+</h2>
+
+<p>
+  {{ item.description }}
+</p>
+
+<hr>
+<form action="{% url 'cart_app:item_detail' item.id %}" method="post">
+  {% csrf_token %}
+  {{ add_form }}
+  <input type="submit" value="Submit">
+</form>
+<hr>
+
+<a href="#">Buy</a>
+<!-- . -->
+{% endblock content %}
+

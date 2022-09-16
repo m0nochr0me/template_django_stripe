@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>
+    {% block title %}{% endblock title %}
+  </title>
+  {% block headscripts %}
+  <script language="JavaScript" src="{% static 'js/core.js' %}"></script>
+  {% endblock headscripts %}
+</head>
+<body>
+{% block content %}{% endblock content %}
+
+<div id="error-message"></div>
+</body>
+{% block footerscripts %}{% endblock footerscripts %}
+
+</html>
